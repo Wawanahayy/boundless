@@ -39,15 +39,22 @@ function pasang_node() {
     echo "Memulai instalasi dan deploy node..."
 
     if cargo install --list | grep -q 'cargo-risczero'; then
-    echo "cargo-risczero sudah terinstal."
-else
-    cargo install cargo-risczero
-    rzup install cargo-risczero
-    if [ $? -ne 0 ]; then
-        echo "Gagal instal cargo-risczero."
-        exit 1
+        echo "cargo-risczero sudah terinstal."
+    else
+        cargo install cargo-risczero
+        if [ $? -ne 0 ]; then
+            echo "Gagal instal cargo-risczero dengan cargo."
+            exit 1
+        fi
+
+        rzup install cargo-risczero
+        if [ $? -ne 0 ]; then
+            echo "Gagal instal cargo-risczero dengan rzup."
+            exit 1
+        fi
     fi
-fi  # ⬅️ ini yang lupa kamu tulis
+}
+
 
     echo "Memeriksa apakah Docker sudah terinstal..."
     if ! command -v docker &> /dev/null; then
