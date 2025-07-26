@@ -194,15 +194,19 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 echo "Verifikasi rzup berhasil"
-
-        rzup install rust
-        if [ $? -ne 0 ]; then
-            echo "Gagal instal toolchain RISC Zero."
-            echo "Jika muncul error GitHub API rate limit, buat token di https://github.com/settings/tokens dan jalankan: export GITHUB_TOKEN=tokenmu"
-            exit 1
-        fi
+echo "Menginstal toolchain Rust untuk RISC Zero..."
+if rzup toolchain list | grep -q 'risc0'; then
+    echo "Toolchain RISC Zero sudah ada, dilewati."
+else
+    rzup install rust
+    if [ $? -ne 0 ]; then
+        echo "Gagal instal toolchain RISC Zero."
+        echo "Jika muncul error GitHub API rate limit, buat token di https://github.com/settings/tokens dan jalankan: export GITHUB_TOKEN=tokenmu"
+        exit 1
     fi
-    echo "Toolchain RISC Zero berhasil diinstal"
+fi
+echo "Toolchain RISC Zero berhasil diinstal"
+
 
     echo "Menginstal cargo-risczero..."
     if cargo install --list | grep -q 'cargo-risczero'; then
