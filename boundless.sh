@@ -462,3 +462,5 @@ echo "boundless-cli diverifikasi!"
     echo
 }
 
+# Jalankan menu utama
+menu_utama
